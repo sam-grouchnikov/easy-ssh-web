@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#f6f2ff"/>
+  <rect x="70" y="60" width="820" height="420" rx="18" fill="#ffffff" stroke="#d8ccff" stroke-width="3"/>
+  <rect x="70" y="60" width="220" height="420" rx="18" fill="#f5f3ff"/>
+  <rect x="320" y="120" width="520" height="300" rx="12" fill="#faf8ff" stroke="#e9ddff"/>
+  <text x="100" y="108" fill="#5b21b6" font-size="24" font-family="Inter,Arial" font-weight="700">files</text>
+  <text x="100" y="154" fill="#4c3f74" font-size="20" font-family="monospace">/etc/nginx</text>
+  <text x="100" y="192" fill="#4c3f74" font-size="20" font-family="monospace">/var/www/app</text>
+  <text x="100" y="230" fill="#4c3f74" font-size="20" font-family="monospace">deploy.sh</text>
+  <text x="350" y="170" fill="#5b21b6" font-size="22" font-family="monospace">server {</text>
+  <text x="350" y="206" fill="#1f1633" font-size="22" font-family="monospace">  listen 443 ssl;</text>
+  <text x="350" y="242" fill="#1f1633" font-size="22" font-family="monospace">  root /var/www/app;</text>
+  <text x="350" y="278" fill="#1f1633" font-size="22" font-family="monospace">  try_files $uri /index.html;</text>
+  <text x="350" y="314" fill="#5b21b6" font-size="22" font-family="monospace">}</text>
+</svg>
