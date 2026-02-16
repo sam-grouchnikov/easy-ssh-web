@@ -101,10 +101,20 @@
         }
 
         .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
             font-weight: 800;
             font-size: 1.1rem;
             letter-spacing: 0.02em;
             text-transform: lowercase;
+        }
+
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .topbar-right {
@@ -299,6 +309,14 @@
             text-align: center;
         }
 
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+        }
+
         footer {
             color: var(--muted);
             text-align: center;
@@ -328,7 +346,17 @@
 <body>
     <header class="topbar">
         <div class="topbar-inner">
-            <div class="brand">easy-ssh</div>
+            <div class="brand">
+                <img
+                    id="brand-icon"
+                    class="brand-icon"
+                    src="images/terminal-icon-light.png"
+                    data-light-src="images/terminal-icon-light.png"
+                    data-dark-src="images/terminal-icon-dark.png"
+                    alt="Easy-SSH terminal icon"
+                />
+                <span>easy-ssh</span>
+            </div>
             <div class="topbar-right">
                 <label class="theme-toggle" for="theme-toggle">
                     <span>Dark mode</span>
@@ -370,7 +398,14 @@
                         <h3>Command Line</h3>
                         <p>Describe your command line feature here. Explain what users can run, how it improves speed, and any shortcuts or automation that make it stand out.</p>
                     </div>
-                    <div class="feature-image">Place command line screenshot/image here</div>
+                    <div class="feature-image">
+                        <img
+                            src="images/terminal-light.png"
+                            data-light-src="images/terminal-light.png"
+                            data-dark-src="images/terminal-dark.png"
+                            alt="Easy-SSH terminal view"
+                        />
+                    </div>
                 </article>
 
                 <article class="panel feature-card">
@@ -378,7 +413,14 @@
                         <h3>File Editor</h3>
                         <p>Describe your file editor feature here. Highlight editing workflows, quick save/deploy actions, and how users can update remote files without context switching.</p>
                     </div>
-                    <div class="feature-image">Place file editor screenshot/image here</div>
+                    <div class="feature-image">
+                        <img
+                            src="images/editor-light.png"
+                            data-light-src="images/editor-light.png"
+                            data-dark-src="images/editor-dark.png"
+                            alt="Easy-SSH file editor"
+                        />
+                    </div>
                 </article>
 
                 <article class="panel feature-card">
@@ -386,7 +428,14 @@
                         <h3>Log Viewer</h3>
                         <p>Describe your log viewer feature here. Mention live tailing, filtering, and how users can diagnose incidents faster from one place.</p>
                     </div>
-                    <div class="feature-image">Place log viewer screenshot/image here</div>
+                    <div class="feature-image">
+                        <img
+                            src="images/graphs-light.png"
+                            data-light-src="images/graphs-light.png"
+                            data-dark-src="images/graphs-dark.png"
+                            alt="Easy-SSH logs and graphs"
+                        />
+                    </div>
                 </article>
             </div>
         </section>
@@ -400,16 +449,27 @@
         (function () {
             const root = document.documentElement;
             const toggle = document.getElementById("theme-toggle");
+            const themedImages = document.querySelectorAll("img[data-light-src][data-dark-src]");
             const storedTheme = localStorage.getItem("theme");
             const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+            function applyTheme(theme) {
+                root.setAttribute("data-theme", theme);
+                themedImages.forEach(function (image) {
+                    const source = theme === "dark" ? image.dataset.darkSrc : image.dataset.lightSrc;
+                    if (source) {
+                        image.src = source;
+                    }
+                });
+            }
+
             const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
-            root.setAttribute("data-theme", initialTheme);
+            applyTheme(initialTheme);
             toggle.checked = initialTheme === "dark";
 
             toggle.addEventListener("change", function () {
                 const nextTheme = toggle.checked ? "dark" : "light";
-                root.setAttribute("data-theme", nextTheme);
+                applyTheme(nextTheme);
                 localStorage.setItem("theme", nextTheme);
             });
         })();
