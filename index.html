@@ -71,9 +71,9 @@
             font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at 10% 10%, rgba(167, 139, 250, 0.22), transparent 35%),
-                radial-gradient(circle at 90% 0%, rgba(124, 58, 237, 0.2), transparent 40%),
-                linear-gradient(160deg, var(--bg), var(--bg-secondary));
+                    radial-gradient(circle at 10% 10%, rgba(167, 139, 250, 0.22), transparent 35%),
+                    radial-gradient(circle at 90% 0%, rgba(124, 58, 237, 0.2), transparent 40%),
+                    linear-gradient(160deg, var(--bg), var(--bg-secondary));
             min-height: 100%;
         }
 
@@ -219,7 +219,11 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .margintop {
+            margin-top: 1rem;
         }
 
         .download-card {
@@ -344,135 +348,143 @@
     </style>
 </head>
 <body>
-    <header class="topbar">
-        <div class="topbar-inner">
-            <div class="brand">
-                <img
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            <img
                     id="brand-icon"
                     class="brand-icon"
                     src="images/terminal-icon-light.png"
                     data-light-src="images/terminal-icon-light.png"
                     data-dark-src="images/terminal-icon-dark.png"
                     alt="Easy-SSH terminal icon"
-                />
-                <span>easy-ssh</span>
-            </div>
-            <div class="topbar-right">
-                <label class="theme-toggle" for="theme-toggle">
-                    <span>Dark mode</span>
-                    <input id="theme-toggle" type="checkbox" aria-label="Toggle dark mode" />
-                </label>
-                <nav class="nav-links" aria-label="Main navigation">
-                    <a href="https://github.com/sam-grouchnikov/easy-ssh" target="_blank" rel="noopener noreferrer">GitHub</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#demo">Demo</a>
-                </nav>
-            </div>
+            />
+            <span>Easy-SSH v1.2.1</span>
         </div>
-    </header>
+        <div class="topbar-right">
+            <label class="theme-toggle" for="theme-toggle">
+                <input id="theme-toggle" type="checkbox" aria-label="Toggle dark mode" />
+            </label>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="https://github.com/sam-grouchnikov/easy-ssh" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="#contact">Contact</a>
+                <a href="">Demo</a>
+            </nav>
+        </div>
+    </div>
+</header>
 
-    <main class="container">
-        <section class="panel hero">
-            <h1>Easy-SSH</h1>
-            <p class="overview">Write your overview here. Keep it to a few concise sentences that explain who Easy-SSH is for, what problem it solves, and why your workflow is better with it.</p>
-        </section>
+<main class="container">
+    <section class="panel hero">
+        <h1>Easy-SSH</h1>
+        <p class="overview">Easy-SSH is your one stop shop for AI model training, intended for PyTorch + W&B-based workflows. This integrated development environment allows you to manage all aspects of your projects in one place, with every featured tailored towards training AI models on remote GPUs via SSH. See below for licensing and transparency.</p>
+    </section>
 
-        <section class="downloads" aria-label="Downloads">
-            <article class="panel download-card">
-                <h2>Download for Windows</h2>
-                <p>Get the latest Easy-SSH build for Windows.</p>
-                <a class="button button-primary" href="downloads/easy-ssh-windows.exe">Download Easy-SSH for Windows</a>
-            </article>
-            <article class="panel download-card">
-                <h2>macOS</h2>
-                <p>Mac support is not available yet.</p>
-                <span class="button button-disabled" aria-disabled="true">Coming Soon for Mac</span>
-            </article>
-        </section>
 
-        <section id="demo" aria-label="Capabilities">
-            <h2 class="section-title">Capabilities</h2>
-            <div class="feature-grid">
-                <article class="panel feature-card">
-                    <div>
-                        <h3>Command Line</h3>
-                        <p>Describe your command line feature here. Explain what users can run, how it improves speed, and any shortcuts or automation that make it stand out.</p>
-                    </div>
-                    <div class="feature-image">
-                        <img
+
+    <section class="downloads" aria-label="Downloads">
+        <article class="panel download-card">
+            <h2>Download for Windows</h2>
+            <p>Mac support is not available yet.</p>
+            <a class="button button-primary" href="https://github.com/sam-grouchnikov/easy-ssh/releases/tag/v1.2.1" target="_blank" rel="noopener noreferrer">Download Easy-SSH for Windows</a>
+        </article>
+        <article class="panel download-card">
+            <h2>Mobile</h2>
+            <p>Mobile app currently in development!</p>
+            <span class="button button-disabled" aria-disabled="true">Coming Soon</span>
+        </article>
+    </section>
+
+    <section id="demo" aria-label="Capabilities">
+        <h2 class="section-title">Capabilities</h2>
+        <div class="feature-grid">
+            <article class="panel feature-card">
+                <div>
+                    <h3>Command Line</h3>
+                    <p>Access your remote GPU clusters and run scripts on them with a simple, Gemini-inspired chat interface. Use button-based navigation and actions for easy, annoyance free actions.</p>
+                </div>
+                <div class="feature-image">
+                    <img
                             src="images/terminal-light.png"
                             data-light-src="images/terminal-light.png"
                             data-dark-src="images/terminal-dark.png"
                             alt="Easy-SSH terminal view"
-                        />
-                    </div>
-                </article>
+                    />
+                </div>
+            </article>
 
-                <article class="panel feature-card">
-                    <div>
-                        <h3>File Editor</h3>
-                        <p>Describe your file editor feature here. Highlight editing workflows, quick save/deploy actions, and how users can update remote files without context switching.</p>
-                    </div>
-                    <div class="feature-image">
-                        <img
+            <article class="panel feature-card">
+                <div>
+                    <h3>File Editor</h3>
+                    <p>View all your remote files, edit them, and transfer them to your local machine with minimal effort.</p>
+                </div>
+                <div class="feature-image">
+                    <img
                             src="images/editor-light.png"
                             data-light-src="images/editor-light.png"
                             data-dark-src="images/editor-dark.png"
                             alt="Easy-SSH file editor"
-                        />
-                    </div>
-                </article>
+                    />
+                </div>
+            </article>
 
-                <article class="panel feature-card">
-                    <div>
-                        <h3>Log Viewer</h3>
-                        <p>Describe your log viewer feature here. Mention live tailing, filtering, and how users can diagnose incidents faster from one place.</p>
-                    </div>
-                    <div class="feature-image">
-                        <img
+            <article class="panel feature-card">
+                <div>
+                    <h3>Log Viewer</h3>
+                    <p>View your Weights & Biases logs in-app, with live-updates (user-activated) for quick, convenient model training progress monitoring.</p>
+                </div>
+                <div class="feature-image">
+                    <img
                             src="images/graphs-light.png"
                             data-light-src="images/graphs-light.png"
                             data-dark-src="images/graphs-dark.png"
                             alt="Easy-SSH logs and graphs"
-                        />
-                    </div>
-                </article>
-            </div>
-        </section>
+                    />
+                </div>
+            </article>
+        </div>
+    </section>
 
-        <footer id="contact">
-            Contact: you@example.com
-        </footer>
-    </main>
+    <div></div>
 
-    <script>
-        (function () {
-            const root = document.documentElement;
-            const toggle = document.getElementById("theme-toggle");
-            const themedImages = document.querySelectorAll("img[data-light-src][data-dark-src]");
-            const storedTheme = localStorage.getItem("theme");
-            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    <section class="panel hero margintop">
+        <h2>Licensing and Transparency</h2>
+        <p class="overview"> Easy-SSH is open source (see "GitHub in top bar) and protected under the PolyForm Noncommercial License 1.0.0. Windows may indicate software is not safe to run, however all source code is disclosed in the repository. The app may also be run by cloning the repository and running "application.py" however dependencies may be difficult to configure via Pip. All user data is securely stored in Firebase, with protected authentication for full security.</p>
+    </section>
 
-            function applyTheme(theme) {
-                root.setAttribute("data-theme", theme);
-                themedImages.forEach(function (image) {
-                    const source = theme === "dark" ? image.dataset.darkSrc : image.dataset.lightSrc;
-                    if (source) {
-                        image.src = source;
-                    }
-                });
-            }
+    <footer id="contact">
+        Contact: sam.grouchnikov@gmail.com
+    </footer>
+</main>
 
-            const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
-            applyTheme(initialTheme);
-            toggle.checked = initialTheme === "dark";
+<script>
+    (function () {
+        const root = document.documentElement;
+        const toggle = document.getElementById("theme-toggle");
+        const themedImages = document.querySelectorAll("img[data-light-src][data-dark-src]");
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-            toggle.addEventListener("change", function () {
-                const nextTheme = toggle.checked ? "dark" : "light";
-                applyTheme(nextTheme);
-                localStorage.setItem("theme", nextTheme);
+        function applyTheme(theme) {
+            root.setAttribute("data-theme", theme);
+            themedImages.forEach(function (image) {
+                const source = theme === "dark" ? image.dataset.darkSrc : image.dataset.lightSrc;
+                if (source) {
+                    image.src = source;
+                }
             });
-        })();
-    </script>
+        }
+
+        const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
+        applyTheme(initialTheme);
+        toggle.checked = initialTheme === "dark";
+
+        toggle.addEventListener("change", function () {
+            const nextTheme = toggle.checked ? "dark" : "light";
+            applyTheme(nextTheme);
+            localStorage.setItem("theme", nextTheme);
+        });
+    })();
+</script>
 </body>
 </html>
