@@ -101,19 +101,10 @@
         }
 
         .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
             font-weight: 800;
             font-size: 1.1rem;
             letter-spacing: 0.02em;
             text-transform: lowercase;
-        }
-
-        .brand-icon {
-            width: 1.35rem;
-            height: 1.35rem;
-            flex-shrink: 0;
         }
 
         .topbar-right {
@@ -301,16 +292,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem;
+            padding: 1rem;
             min-height: 180px;
-        }
-
-        .feature-image img {
-            width: 100%;
-            height: 100%;
-            min-height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            text-align: center;
         }
 
         footer {
@@ -342,17 +328,14 @@
 <body>
     <header class="topbar">
         <div class="topbar-inner">
-            <div class="brand">
-                <img class="brand-icon theme-asset" src="images/terminal-light.svg" data-light="images/terminal-light.svg" data-dark="images/terminal-dark.svg" alt="Terminal icon" />
-                <span>easy-ssh</span>
-            </div>
+            <div class="brand">easy-ssh</div>
             <div class="topbar-right">
                 <label class="theme-toggle" for="theme-toggle">
                     <span>Dark mode</span>
                     <input id="theme-toggle" type="checkbox" aria-label="Toggle dark mode" />
                 </label>
                 <nav class="nav-links" aria-label="Main navigation">
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://github.com/sam-grouchnikov/easy-ssh" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a href="#contact">Contact</a>
                     <a href="#demo">Demo</a>
                 </nav>
@@ -387,9 +370,7 @@
                         <h3>Command Line</h3>
                         <p>Describe your command line feature here. Explain what users can run, how it improves speed, and any shortcuts or automation that make it stand out.</p>
                     </div>
-                    <div class="feature-image">
-                        <img class="theme-asset" src="images/command-line-light.svg" data-light="images/command-line-light.svg" data-dark="images/command-line-dark.svg" alt="Easy-SSH command line screenshot" />
-                    </div>
+                    <div class="feature-image">Place command line screenshot/image here</div>
                 </article>
 
                 <article class="panel feature-card">
@@ -397,9 +378,7 @@
                         <h3>File Editor</h3>
                         <p>Describe your file editor feature here. Highlight editing workflows, quick save/deploy actions, and how users can update remote files without context switching.</p>
                     </div>
-                    <div class="feature-image">
-                        <img class="theme-asset" src="images/file-editor-light.svg" data-light="images/file-editor-light.svg" data-dark="images/file-editor-dark.svg" alt="Easy-SSH file editor screenshot" />
-                    </div>
+                    <div class="feature-image">Place file editor screenshot/image here</div>
                 </article>
 
                 <article class="panel feature-card">
@@ -407,9 +386,7 @@
                         <h3>Log Viewer</h3>
                         <p>Describe your log viewer feature here. Mention live tailing, filtering, and how users can diagnose incidents faster from one place.</p>
                     </div>
-                    <div class="feature-image">
-                        <img class="theme-asset" src="images/log-viewer-light.svg" data-light="images/log-viewer-light.svg" data-dark="images/log-viewer-dark.svg" alt="Easy-SSH log viewer screenshot" />
-                    </div>
+                    <div class="feature-image">Place log viewer screenshot/image here</div>
                 </article>
             </div>
         </section>
@@ -423,29 +400,17 @@
         (function () {
             const root = document.documentElement;
             const toggle = document.getElementById("theme-toggle");
-            const themeAssets = document.querySelectorAll(".theme-asset");
             const storedTheme = localStorage.getItem("theme");
             const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-            function updateThemeAssets(theme) {
-                themeAssets.forEach(function (asset) {
-                    const nextSrc = theme === "dark" ? asset.dataset.dark : asset.dataset.light;
-                    if (nextSrc) {
-                        asset.src = nextSrc;
-                    }
-                });
-            }
 
             const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
             root.setAttribute("data-theme", initialTheme);
             toggle.checked = initialTheme === "dark";
-            updateThemeAssets(initialTheme);
 
             toggle.addEventListener("change", function () {
                 const nextTheme = toggle.checked ? "dark" : "light";
                 root.setAttribute("data-theme", nextTheme);
                 localStorage.setItem("theme", nextTheme);
-                updateThemeAssets(nextTheme);
             });
         })();
     </script>
