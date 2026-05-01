@@ -27,7 +27,10 @@
         body {
             margin: 0;
             font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: var(--black);
+            background:
+                    radial-gradient(circle at 15% 10%, rgba(255, 106, 0, 0.19), transparent 35%),
+                    radial-gradient(circle at 85% 0%, rgba(255, 143, 0, 0.16), transparent 34%),
+                    linear-gradient(165deg, var(--black), var(--black-soft));
             color: var(--text);
             min-height: 100vh;
         }
@@ -85,7 +88,7 @@
         .panel {
             border: 1px solid var(--border);
             border-radius: 20px;
-            background: #101010;
+            background: linear-gradient(170deg, rgba(18, 18, 18, 0.97), rgba(7, 7, 7, 0.94));
             box-shadow: var(--glow);
         }
 
@@ -102,7 +105,7 @@
             position: absolute;
             inset: -35% 20% auto;
             height: 360px;
-            background: rgba(255, 143, 0, 0.12);
+            background: radial-gradient(circle, rgba(255, 143, 0, 0.3), transparent 72%);
             z-index: 0;
         }
 
@@ -189,7 +192,7 @@
         .meter-fill {
             height: 100%;
             width: 0;
-            background: var(--orange);
+            background: linear-gradient(90deg, var(--orange), var(--orange-strong));
             transition: width 0.35s ease;
         }
 
@@ -253,11 +256,17 @@
 
             <div class="measurements-wrap">
                 <div class="figure">
-                    <img
-                            src="https://images.unsplash.com/photo-1590086782792-42dd2350140d?auto=format&fit=crop&w=900&q=80"
-                            alt="Photo-realistic portrait of a teenage Indian boy for Avi measurements"
-                            style="width: 100%; max-height: 360px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 143, 0, 0.45);"
-                        />
+                    <svg viewBox="0 0 220 320" width="100%" height="100%" role="img" aria-label="Avi body graph">
+                        <circle cx="110" cy="44" r="28" fill="none" stroke="#ff8f00" stroke-width="3">
+                            <title>Head</title>
+                        </circle>
+                        <line x1="110" y1="72" x2="110" y2="210" stroke="#ff8f00" stroke-width="4"><title>Torso length</title></line>
+                        <line x1="60" y1="110" x2="160" y2="110" stroke="#ff8f00" stroke-width="4"><title>Shoulder width</title></line>
+                        <line x1="110" y1="210" x2="80" y2="300" stroke="#ff8f00" stroke-width="4"><title>Left leg</title></line>
+                        <line x1="110" y1="210" x2="140" y2="300" stroke="#ff8f00" stroke-width="4"><title>Right leg</title></line>
+                        <line x1="110" y1="130" x2="55" y2="185" stroke="#ff8f00" stroke-width="4"><title>Arm span (left)</title></line>
+                        <line x1="110" y1="130" x2="165" y2="185" stroke="#ff8f00" stroke-width="4"><title>Arm span (right)</title></line>
+                    </svg>
                 </div>
 
                 <div class="controls">
