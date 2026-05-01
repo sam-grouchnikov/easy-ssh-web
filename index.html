@@ -3,513 +3,308 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Easy-SSH | Desktop SSH, Simplified</title>
+    <title>AviHub | Avi. Reimagined.</title>
     <style>
         :root {
-            --bg: #f8f7ff;
-            --bg-secondary: #ffffff;
-            --text: #1f1633;
-            --muted: #5f5678;
-            --surface: rgba(255, 255, 255, 0.74);
-            --surface-border: rgba(113, 88, 191, 0.2);
-            --accent: #7c3aed;
-            --accent-strong: #6d28d9;
-            --accent-soft: #ede9fe;
-            --topbar-bg: rgba(255, 255, 255, 0.76);
-            --button-text: #ffffff;
-            --disabled-bg: #ddd6fe;
-            --disabled-text: #6b5fa1;
-            --shadow: 0 14px 40px rgba(102, 76, 176, 0.16);
-            color-scheme: light;
-        }
-
-        :root[data-theme="dark"] {
-            --bg: #0f0a1a;
-            --bg-secondary: #160f26;
-            --text: #f5f3ff;
-            --muted: #b8acd9;
-            --surface: rgba(28, 20, 48, 0.7);
-            --surface-border: rgba(167, 139, 250, 0.28);
-            --accent: #a78bfa;
-            --accent-strong: #8b5cf6;
-            --accent-soft: rgba(61, 43, 99, 0.55);
-            --topbar-bg: rgba(22, 15, 38, 0.72);
-            --button-text: #100a1f;
-            --disabled-bg: rgba(86, 67, 130, 0.55);
-            --disabled-text: #c4b5fd;
-            --shadow: 0 16px 42px rgba(5, 2, 12, 0.48);
+            --black: #000000;
+            --black-soft: #0a0a0a;
+            --black-card: #121212;
+            --orange: #ff8f00;
+            --orange-strong: #ff6a00;
+            --text: #f5f5f5;
+            --muted: #c9c9c9;
+            --border: rgba(255, 143, 0, 0.36);
+            --glow: 0 18px 50px rgba(255, 106, 0, 0.25);
             color-scheme: dark;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                --bg: #0f0a1a;
-                --bg-secondary: #160f26;
-                --text: #f5f3ff;
-                --muted: #b8acd9;
-                --surface: rgba(28, 20, 48, 0.7);
-                --surface-border: rgba(167, 139, 250, 0.28);
-                --accent: #a78bfa;
-                --accent-strong: #8b5cf6;
-                --accent-soft: rgba(61, 43, 99, 0.55);
-                --topbar-bg: rgba(22, 15, 38, 0.72);
-                --button-text: #100a1f;
-                --disabled-bg: rgba(86, 67, 130, 0.55);
-                --disabled-text: #c4b5fd;
-                --shadow: 0 16px 42px rgba(5, 2, 12, 0.48);
-                color-scheme: dark;
-            }
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
         body {
             margin: 0;
             font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--black);
             color: var(--text);
-            background:
-                    radial-gradient(circle at 10% 10%, rgba(167, 139, 250, 0.22), transparent 35%),
-                    radial-gradient(circle at 90% 0%, rgba(124, 58, 237, 0.2), transparent 40%),
-                    linear-gradient(160deg, var(--bg), var(--bg-secondary));
-            min-height: 100%;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(12px);
-            background: var(--topbar-bg);
-            border-bottom: 1px solid var(--surface-border);
-        }
-
-        .topbar-inner {
-            width: min(1080px, 92vw);
-            margin: 0 auto;
-            min-height: 68px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.55rem;
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 0.02em;
-            text-transform: lowercase;
-        }
-
-        .brand-icon {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .topbar-right {
-            display: flex;
-            gap: 0.9rem;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        .theme-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 650;
-            color: var(--muted);
-            font-size: 0.92rem;
-        }
-
-        .theme-toggle input {
-            appearance: none;
-            width: 44px;
-            height: 24px;
-            background: var(--accent-soft);
-            border: 1px solid var(--surface-border);
-            border-radius: 999px;
-            position: relative;
-            cursor: pointer;
-            margin: 0;
-            transition: background 0.2s ease;
-        }
-
-        .theme-toggle input::after {
-            content: "";
-            width: 18px;
-            height: 18px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.2s ease;
-        }
-
-        .theme-toggle input:checked::after {
-            transform: translateX(20px);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.4rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--muted);
-            font-weight: 600;
-            padding: 0.4rem 0.55rem;
-            border-radius: 8px;
-        }
-
-        .nav-links a:hover {
-            background: var(--accent-soft);
-            color: var(--text);
+            min-height: 100vh;
         }
 
         .container {
             width: min(1080px, 92vw);
             margin: 0 auto;
-            padding: 2.5rem 0 4rem;
+            padding: 1.2rem 0 4rem;
         }
 
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.72);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .topbar-inner {
+            width: min(1080px, 92vw);
+            margin: 0 auto;
+            min-height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--orange);
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--muted);
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.35rem 0.55rem;
+            transition: color 0.25s ease, background 0.25s ease;
+        }
+
+        .nav a:hover { color: var(--text); background: rgba(255, 143, 0, 0.14); }
+
         .panel {
-            background: var(--surface);
-            border: 1px solid var(--surface-border);
-            border-radius: 18px;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(5px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: #101010;
+            box-shadow: var(--glow);
         }
 
         .hero {
-            padding: 2rem;
-            margin-bottom: 1.5rem;
+            margin-top: 1.8rem;
+            padding: clamp(2rem, 6vw, 4rem);
+            text-align: center;
+            overflow: hidden;
+            position: relative;
         }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: -35% 20% auto;
+            height: 360px;
+            background: rgba(255, 143, 0, 0.12);
+            z-index: 0;
+        }
+
+        .hero h1,
+        .hero p { position: relative; z-index: 1; }
 
         h1 {
             margin: 0;
-            font-size: clamp(2rem, 5vw, 3rem);
-            line-height: 1.06;
+            font-size: clamp(2.4rem, 8vw, 5rem);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            line-height: 1;
         }
 
-        .overview {
-            margin-top: 1rem;
-            color: var(--muted);
-            line-height: 1.65;
+        .accent {
+            color: var(--orange);
+            text-shadow: 0 0 20px rgba(255, 106, 0, 0.45);
+        }
+
+        .hero p {
             max-width: 760px;
-        }
-
-        .downloads {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .margintop {
-            margin-top: 1rem;
-        }
-
-        .download-card {
-            padding: 1.3rem;
-        }
-
-        .download-card h2 {
-            margin-top: 0;
-            margin-bottom: 0.55rem;
-            font-size: 1.2rem;
-        }
-
-        .download-card p {
-            margin-top: 0;
+            margin: 1rem auto 0;
             color: var(--muted);
-            line-height: 1.55;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
 
-        .button {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            padding: 0.85rem 1rem;
-            border-radius: 12px;
-            font-weight: 750;
-            text-decoration: none;
-            margin-top: 0.7rem;
-        }
-
-        .button-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-            color: var(--button-text);
-        }
-
-        .button-primary:hover {
-            filter: brightness(1.08);
-        }
-
-        .button-disabled {
-            background: var(--disabled-bg);
-            color: var(--disabled-text);
-            cursor: not-allowed;
-        }
-
-        .section-title {
-            margin: 0 0 0.8rem;
-            font-size: 1.5rem;
-        }
-
-        .feature-grid {
+        .sections {
+            margin-top: 1.4rem;
             display: grid;
-            grid-template-columns: 1fr;
             gap: 1rem;
         }
 
-        .feature-card {
-            display: grid;
-            grid-template-columns: 1.15fr 1fr;
-            gap: 1rem;
-            align-items: stretch;
-            padding: 1.2rem;
+        .card {
+            padding: 1.4rem;
+            transition: transform 0.28s ease, border-color 0.28s ease;
         }
 
-        .feature-card h3 {
-            margin-top: 0;
-            margin-bottom: 0.55rem;
-            font-size: 1.25rem;
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 143, 0, 0.72);
         }
 
-        .feature-card p {
-            margin-top: 0;
+        h2 {
+            margin: 0;
+            font-size: 1.45rem;
+            color: var(--orange);
+        }
+
+        .card p {
+            margin: 0.8rem 0 0;
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        .feature-image {
-            border: 1px dashed var(--surface-border);
-            border-radius: 14px;
-            background: linear-gradient(145deg, var(--accent-soft), transparent 75%);
+        .measurements-wrap {
+            margin-top: 1.2rem;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 1rem;
+        }
+
+        .figure {
+            min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 14px;
+            border: 1px dashed var(--border);
+            background: rgba(255, 143, 0, 0.05);
             padding: 1rem;
-            min-height: 180px;
-            color: var(--muted);
-            font-weight: 600;
-            text-align: center;
         }
 
-        .feature-image img {
+        .meter {
             width: 100%;
-            height: auto;
-            border-radius: 10px;
-            border: 1px solid var(--surface-border);
-            box-shadow: var(--shadow);
+            background: #1b1b1b;
+            border-radius: 999px;
+            height: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 143, 0, 0.34);
+            margin-top: 0.4rem;
         }
 
-        .tech-stack-grid {
-            margin-top: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+        .meter-fill {
+            height: 100%;
+            width: 0;
+            background: var(--orange);
+            transition: width 0.35s ease;
         }
 
-        .tech-pill {
-            padding: 0.55rem 0.9rem;
-            border-radius: 12px;
-            border: 1px solid var(--surface-border);
-            background: linear-gradient(145deg, var(--accent-soft), transparent 85%);
-            color: var(--text);
-            font-weight: 490;
-            letter-spacing: 0.01em;
-        }
-
-        footer {
-            color: var(--muted);
-            text-align: center;
-            margin-top: 2rem;
-        }
+        .controls label { display: block; margin: 0.85rem 0 0.25rem; font-weight: 600; }
+        .controls input { width: 100%; accent-color: var(--orange); }
+        .stat { color: var(--text); font-weight: 700; }
 
         @media (max-width: 840px) {
-            .feature-card {
-                grid-template-columns: 1fr;
-            }
-
-            .topbar-inner {
-                min-height: 76px;
-                padding: 0.45rem 0;
-                align-items: flex-start;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            .topbar-right {
-                width: 100%;
-                justify-content: space-between;
-            }
+            .measurements-wrap { grid-template-columns: 1fr; }
+            .topbar-inner { flex-direction: column; justify-content: center; padding: 0.5rem 0; gap: 0.45rem; }
         }
     </style>
 </head>
 <body>
 <header class="topbar">
     <div class="topbar-inner">
-        <div class="brand">
-            <img
-                    id="brand-icon"
-                    class="brand-icon"
-                    src="images/terminal-icon-light.png"
-                    data-light-src="images/terminal-icon-light.png"
-                    data-dark-src="images/terminal-icon-dark.png"
-                    alt="Easy-SSH terminal icon"
-            />
-            <span>Easy-SSH v1.2.1</span>
-        </div>
-        <div class="topbar-right">
-            <label class="theme-toggle" for="theme-toggle">
-                <input id="theme-toggle" type="checkbox" aria-label="Toggle dark mode" />
-            </label>
-            <nav class="nav-links" aria-label="Main navigation">
-                <a href="https://github.com/sam-grouchnikov/easy-ssh" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="#contact">Contact</a>
-                <a href="https://youtu.be/rQyr_o-RNqQ" target="_blank" rel="noopener noreferrer">Demo</a>
-            </nav>
-        </div>
+        <p class="brand">AviHub</p>
+        <nav class="nav" aria-label="AviHub navigation">
+            <a href="#story">Avi's Story</a>
+            <a href="#avip">AviP</a>
+            <a href="#measurements">Avi Measurements</a>
+        </nav>
     </div>
 </header>
 
 <main class="container">
-    <section class="panel hero">
-        <h1>Easy-SSH</h1>
-        <p class="overview">Easy-SSH is your one stop shop for AI model training, intended for PyTorch + W&B-based workflows. This integrated development environment allows you to manage all aspects of your projects in one place, with every featured tailored towards training AI models on remote GPUs via SSH. See below for licensing and transparency.</p>
+    <section class="panel hero" aria-label="Landing">
+        <h1><span class="accent">Avi.</span> Reimagined.</h1>
+        <p>
+            Welcome to AviHub: the definitive black-and-orange destination where charisma meets legacy,
+            and every detail of Avi's world is elevated into an unforgettable digital experience.
+        </p>
     </section>
 
-
-
-    <section class="downloads" aria-label="Downloads">
-        <article class="panel download-card">
-            <h2>Download for Windows</h2>
-            <p>Mac support is not available yet.</p>
-            <a class="button button-primary" href="https://github.com/sam-grouchnikov/easy-ssh/releases/tag/v1.2.1" target="_blank" rel="noopener noreferrer">Download Easy-SSH for Windows</a>
+    <section class="sections" aria-label="AviHub offerings">
+        <article class="panel card" id="story">
+            <h2>Avi's Story</h2>
+            <p>
+                He started as a quiet creator with impossible standards and a relentless vision. In a world crowded with noise,
+                Avi became signal—building ideas people said were too bold, then proving them wrong in public. Every milestone
+                became a myth, every setback became momentum, and every room he walked into seemed to reorient around what he was about to build next.
+                Avi's story isn't just rise; it's ignition.
+            </p>
         </article>
-        <article class="panel download-card">
-            <h2>Mobile</h2>
-            <p>Mobile app currently in development!</p>
-            <span class="button button-disabled" aria-disabled="true">Coming Soon</span>
+
+        <article class="panel card" id="avip">
+            <h2>AviP</h2>
+            <p>
+                AviP is the premium membership tier for exclusive, behind-the-scenes access. Members get private drops, early concepts,
+                process breakdowns, unreleased media, and first-look access to upcoming AviHub experiences. It's where the public story ends
+                and the real creative engine starts.
+            </p>
+        </article>
+
+        <article class="panel card" id="measurements">
+            <h2>Avi Measurements</h2>
+            <p>
+                Explore an interactive body graph of Avi. Use the sliders to inspect dynamic proportions and lengths in real time.
+                Hover over each line on the figure for a quick label reference.
+            </p>
+
+            <div class="measurements-wrap">
+                <div class="figure">
+                    <img
+                            src="https://images.unsplash.com/photo-1590086782792-42dd2350140d?auto=format&fit=crop&w=900&q=80"
+                            alt="Photo-realistic portrait of a teenage Indian boy for Avi measurements"
+                            style="width: 100%; max-height: 360px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 143, 0, 0.45);"
+                        />
+                </div>
+
+                <div class="controls">
+                    <label for="height">Height: <span class="stat" id="height-value">185 cm</span></label>
+                    <input id="height" type="range" min="160" max="210" value="185" />
+                    <div class="meter"><div class="meter-fill" id="height-meter"></div></div>
+
+                    <label for="shoulders">Shoulder Width: <span class="stat" id="shoulders-value">52 cm</span></label>
+                    <input id="shoulders" type="range" min="40" max="70" value="52" />
+                    <div class="meter"><div class="meter-fill" id="shoulders-meter"></div></div>
+
+                    <label for="wingspan">Arm Span: <span class="stat" id="wingspan-value">192 cm</span></label>
+                    <input id="wingspan" type="range" min="160" max="225" value="192" />
+                    <div class="meter"><div class="meter-fill" id="wingspan-meter"></div></div>
+                </div>
+            </div>
         </article>
     </section>
-
-    <section id="demo" aria-label="Capabilities">
-        <h2 class="section-title">Capabilities</h2>
-        <div class="feature-grid">
-            <article class="panel feature-card">
-                <div>
-                    <h3>Command Line</h3>
-                    <p>Access your remote GPU clusters and run scripts on them with a simple, Gemini-inspired chat interface. Use button-based navigation and actions for easy, annoyance free actions.</p>
-                </div>
-                <div class="feature-image">
-                    <img
-                            src="images/terminal-light.png"
-                            data-light-src="images/terminal-light.png"
-                            data-dark-src="images/terminal-dark.png"
-                            alt="Easy-SSH terminal view"
-                    />
-                </div>
-            </article>
-
-            <article class="panel feature-card">
-                <div>
-                    <h3>File Editor</h3>
-                    <p>View all your remote files, edit them, and transfer them to your local machine with minimal effort.</p>
-                </div>
-                <div class="feature-image">
-                    <img
-                            src="images/editor-light.png"
-                            data-light-src="images/editor-light.png"
-                            data-dark-src="images/editor-dark.png"
-                            alt="Easy-SSH file editor"
-                    />
-                </div>
-            </article>
-
-            <article class="panel feature-card">
-                <div>
-                    <h3>Log Viewer</h3>
-                    <p>View your Weights & Biases logs in-app, with live-updates (user-activated) for quick, convenient model training progress monitoring.</p>
-                </div>
-                <div class="feature-image">
-                    <img
-                            src="images/graphs-light.png"
-                            data-light-src="images/graphs-light.png"
-                            data-dark-src="images/graphs-dark.png"
-                            alt="Easy-SSH logs and graphs"
-                    />
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="panel hero margintop" aria-label="Tech stack used to create Easy-SSH">
-        <h2>Tech Stack Used to Create Easy-SSH</h2>
-        <div class="tech-stack-grid" aria-label="Easy-SSH technologies">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">PyQt6</span>
-            <span class="tech-pill">Paramiko</span>
-            <span class="tech-pill">M3 Design</span>
-            <span class="tech-pill">Weights &amp; Biases API</span>
-            <span class="tech-pill">Firebase Authentication + Database</span>
-        </div>
-    </section>
-
-    <section class="panel hero margintop">
-        <h2>Licensing and Transparency</h2>
-        <p class="overview"> Easy-SSH is open source (see "GitHub" in top bar) and protected under the PolyForm Noncommercial License 1.0.0. Windows may indicate software is not safe to run due to the executable not being signed, however all source code is available in the repository. The app can also be run by cloning the repository and running "application.py" however you will need to download all the dependencies via Pip. All user data is securely stored in Firebase, with protected authentication for full security.</p>
-    </section>
-
-    <footer id="contact">
-        Contact: sam.grouchnikov@gmail.com
-    </footer>
 </main>
 
 <script>
     (function () {
-        const root = document.documentElement;
-        const toggle = document.getElementById("theme-toggle");
-        const themedImages = document.querySelectorAll("img[data-light-src][data-dark-src]");
-        const storedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const controls = [
+            { id: "height", valueId: "height-value", meterId: "height-meter", unit: "cm" },
+            { id: "shoulders", valueId: "shoulders-value", meterId: "shoulders-meter", unit: "cm" },
+            { id: "wingspan", valueId: "wingspan-value", meterId: "wingspan-meter", unit: "cm" }
+        ];
 
-        function applyTheme(theme) {
-            root.setAttribute("data-theme", theme);
-            themedImages.forEach(function (image) {
-                const source = theme === "dark" ? image.dataset.darkSrc : image.dataset.lightSrc;
-                if (source) {
-                    image.src = source;
-                }
-            });
+        function updateControl(control) {
+            const input = document.getElementById(control.id);
+            const value = document.getElementById(control.valueId);
+            const meter = document.getElementById(control.meterId);
+            const min = Number(input.min);
+            const max = Number(input.max);
+            const current = Number(input.value);
+            const percentage = ((current - min) / (max - min)) * 100;
+
+            value.textContent = current + " " + control.unit;
+            meter.style.width = percentage + "%";
         }
 
-        const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
-        applyTheme(initialTheme);
-        toggle.checked = initialTheme === "dark";
-
-        toggle.addEventListener("change", function () {
-            const nextTheme = toggle.checked ? "dark" : "light";
-            applyTheme(nextTheme);
-            localStorage.setItem("theme", nextTheme);
+        controls.forEach(function (control) {
+            const input = document.getElementById(control.id);
+            input.addEventListener("input", function () {
+                updateControl(control);
+            });
+            updateControl(control);
         });
     })();
 </script>
